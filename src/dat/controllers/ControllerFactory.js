@@ -17,6 +17,7 @@ import NumberControllerSlider from './NumberControllerSlider';
 import StringController from './StringController';
 import FunctionController from './FunctionController';
 import BooleanController from './BooleanController';
+import RangeController from './RangeController';
 import common from '../utils/common';
 
 const ControllerFactory = function(object, property) {
@@ -58,6 +59,10 @@ const ControllerFactory = function(object, property) {
 
   if (common.isBoolean(initialValue)) {
     return new BooleanController(object, property);
+  }
+
+  if (Array.isArray(initialValue) && initialValue.length === 2 && common.isNumber(initialValue[0]) && common.isNumber(initialValue[1])) {
+    return new RangeController(object, property, { min: arguments[2], max: arguments[3], step: arguments[4] });
   }
 
   return null;

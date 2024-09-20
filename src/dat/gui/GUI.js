@@ -20,6 +20,7 @@ import FunctionController from '../controllers/FunctionController';
 import NumberControllerBox from '../controllers/NumberControllerBox';
 import NumberControllerSlider from '../controllers/NumberControllerSlider';
 import ColorController from '../controllers/ColorController';
+import RangeController from '../controllers/RangeController';
 import requestAnimationFrame from '../utils/requestAnimationFrame';
 import CenteredDiv from '../dom/CenteredDiv';
 import dom from '../dom/dom';
@@ -557,6 +558,34 @@ common.extend(
     },
 
     /**
+     * Adds a new range controller to the GUI.
+     *
+     * @param {Object} object The object to be manipulated
+     * @param {String} property The name of the property to be manipulated
+     * @param {Number} min Minimum allowed value
+     * @param {Number} max Maximum allowed value
+     * @param {Number} step Increment by which to change value
+     * @returns {Controller} The controller that was added to the GUI.
+     * @instance
+     *
+     * @example
+     * // Add a range controller.
+     * var range = {range: [10, 50]};
+     * gui.addRange(range, 'range', 0, 100, 1);
+     */
+    addRange: function(object, property, min, max, step) {
+      return add(
+        this,
+        object,
+        property,
+        {
+          factoryArgs: [min, max, step],
+          range: true
+        }
+      );
+    },
+
+    /**
      * Removes the given controller from the GUI.
      * @param {Controller} controller
      * @instance
@@ -1066,6 +1095,8 @@ function augmentController(gui, li, controller) {
     }, controller.updateDisplay);
 
     controller.updateDisplay();
+  } else if (controller instanceof RangeController) {
+    dom.addClass(li, 'range');
   }
 
   controller.setValue = common.compose(function(val) {
@@ -1140,6 +1171,8 @@ function add(gui, object, property, params) {
 
   if (params.color) {
     controller = new ColorController(object, property);
+  } else if (params.range) {
+    controller = new RangeController(object, property, ...params.factoryArgs);
   } else {
     const factoryArgs = [object, property].concat(params.factoryArgs);
     controller = ControllerFactory.apply(gui, factoryArgs);

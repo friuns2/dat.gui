@@ -42,6 +42,7 @@ manipulate variables and fire functions on the fly.
     * [.useLocalStorage](#GUI+useLocalStorage) : <code>Boolean</code>
     * [.add(object, property, [min], [max], [step])](#GUI+add) ⇒ [<code>Controller</code>](#Controller)
     * [.addColor(object, property)](#GUI+addColor) ⇒ [<code>Controller</code>](#Controller)
+    * [.addRange(object, property, min, max, step)](#GUI+addRange) ⇒ [<code>Controller</code>](#Controller)
     * [.remove(controller)](#GUI+remove)
     * [.destroy()](#GUI+destroy)
     * [.addFolder(name)](#GUI+addFolder) ⇒ <code>dat.gui.GUI</code>
@@ -196,6 +197,28 @@ gui.addColor(palette, 'color1');
 gui.addColor(palette, 'color2');
 gui.addColor(palette, 'color3');
 gui.addColor(palette, 'color4');
+```
+<a name="GUI+addRange"></a>
+
+### gui.addRange(object, property, min, max, step) ⇒ [<code>Controller</code>](#Controller)
+Adds a new range controller to the GUI.
+
+**Kind**: instance method of [<code>GUI</code>](#GUI)  
+**Returns**: [<code>Controller</code>](#Controller) - The controller that was added to the GUI.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| object | <code>Object</code> | The object to be manipulated |
+| property | <code>String</code> | The name of the property to be manipulated |
+| min | <code>Number</code> | Minimum allowed value |
+| max | <code>Number</code> | Maximum allowed value |
+| step | <code>Number</code> | Increment by which to change value |
+
+**Example**  
+```js
+// Add a range controller.
+var range = {range: [10, 50]};
+gui.addRange(range, 'range', 0, 100, 1);
 ```
 <a name="GUI+remove"></a>
 
